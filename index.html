@@ -1,1028 +1,1131 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chemistry Zone - Bharat Ka Most Trusted Chemistry Learning Platform</title>
+  <title>Chemistry Zone - Premier Learning Hub</title>
   
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- React & ReactDOM CDN -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  
-  <!-- Babel for running JSX directly in browser -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Google Font (Inter & Plus Jakarta Sans) -->
+  <!-- Google Fonts: SF Pro lookalike (Inter) & FontAwesome for iOS-like icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              dark: '#0a0d14',
-              card: '#121826',
-              accent: '#3b82f6',
-              pwBlue: '#1e40af',
-              pwYellow: '#fbbf24',
-              pwOrange: '#ea580c'
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
   <style>
+    /* =========================================================
+       CSS VARIABLES & iOS LIQUID GLASSMORPHIC THEME
+       ========================================================= */
+    :root {
+      --bg-dark: #070913;
+      --glass-bg: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --glass-glow: rgba(0, 225, 255, 0.15);
+      --glass-blur: 24px;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --accent-cyan: #00f2fe;
+      --accent-purple: #9b51e0;
+      --accent-pink: #ff2a85;
+      --accent-green: #25d366;
+      --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      scroll-behavior: smooth;
+    }
+
     body {
-      background-color: #0b0f19;
-      color: #f1f5f9;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
     }
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #0b0f19; }
-    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
-    .glass-nav {
-      background: rgba(11, 15, 25, 0.88);
-      backdrop-filter: blur(14px);
+
+    /* =========================================================
+       DYNAMIC LIQUID BACKGROUND (iOS Animated Orbs)
+       ========================================================= */
+    .liquid-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      filter: blur(80px);
     }
-    .badge-shimmer {
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
-      background-size: 200% 100%;
-      animation: shimmer 2.5s infinite;
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: floatLiquid 18s infinite alternate ease-in-out;
     }
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+
+    .orb-1 {
+      width: 450px;
+      height: 450px;
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      top: -5%;
+      left: 10%;
+    }
+
+    .orb-2 {
+      width: 550px;
+      height: 550px;
+      background: linear-gradient(135deg, #7928ca, #ff0080);
+      bottom: 10%;
+      right: 5%;
+      animation-duration: 22s;
+      animation-delay: -5s;
+    }
+
+    .orb-3 {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, #0575e6, #00f260);
+      top: 45%;
+      left: 35%;
+      animation-duration: 16s;
+      animation-delay: -9s;
+    }
+
+    @keyframes floatLiquid {
+      0% {
+        transform: translate(0px, 0px) scale(1) rotate(0deg);
+      }
+      50% {
+        transform: translate(60px, 80px) scale(1.15) rotate(120deg);
+      }
+      100% {
+        transform: translate(-40px, -50px) scale(0.9) rotate(240deg);
+      }
+    }
+
+    /* =========================================================
+       GLASSMORPHISM CORE CLASS
+       ========================================================= */
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    }
+
+    /* =========================================================
+       NAVIGATION BAR (iOS Island Style)
+       ========================================================= */
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 1100px;
+      padding: 12px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-radius: 40px !important;
+    }
+
+    .logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .logo i {
+      color: var(--accent-cyan);
+      font-size: 1.5rem;
+      filter: drop-shadow(0 0 10px var(--accent-cyan));
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: var(--transition-smooth);
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.85rem;
+      backdrop-filter: blur(10px);
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn:hover {
+      background: white;
+      color: black;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    /* =========================================================
+       HERO SECTION
+       ========================================================= */
+    .hero {
+      padding: 180px 20px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .badge-pill {
+      background: rgba(0, 242, 254, 0.12);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+      color: var(--accent-cyan);
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #FFFFFF 30%, rgba(255, 255, 255, 0.6) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1.5px;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 680px;
+      line-height: 1.6;
+      margin-bottom: 35px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      border: none;
+      color: #070913;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0, 242, 254, 0.35);
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(0, 242, 254, 0.55);
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      backdrop-filter: blur(16px);
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-3px);
+    }
+
+    /* Quick Highlight Badges */
+    .highlights {
+      display: flex;
+      gap: 12px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .highlight-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 8px 16px;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .highlight-chip i {
+      color: var(--accent-cyan);
+    }
+
+    /* =========================================================
+       SECTION WRAPPERS
+       ========================================================= */
+    .section {
+      max-width: 1100px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .section-title h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
+    /* =========================================================
+       COURSES & EXAM PREPARATION (7th to 12th + Competitions)
+       ========================================================= */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      padding: 32px 26px;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px var(--glass-glow);
+    }
+
+    .card-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--accent-cyan);
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #e0e0e0;
+    }
+
+    /* =========================================================
+       MODULES SECTION (Paid vs Free Modules)
+       ========================================================= */
+    .module-tabs-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .tab-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      padding: 10px 24px;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition-smooth);
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: black;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .module-item {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .module-item ul {
+      list-style: none;
+      margin: 15px 0 20px;
+    }
+
+    .module-item ul li {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .module-item ul li i {
+      color: #00f2fe;
+      font-size: 0.8rem;
+    }
+
+    /* =========================================================
+       TIMING, BATCH MODES & MENTORSHIP
+       ========================================================= */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .info-box {
+      padding: 30px;
+    }
+
+    .info-box h3 {
+      font-size: 1.3rem;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .timeline-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.95rem;
+    }
+
+    .timeline-item:last-child {
+      border-bottom: none;
+    }
+
+    .timeline-item span:first-child {
+      color: var(--text-secondary);
+    }
+
+    .mode-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-left: 8px;
+    }
+    .pill-online { background: rgba(0, 242, 254, 0.2); color: var(--accent-cyan); }
+    .pill-offline { background: rgba(155, 81, 224, 0.2); color: #d09cf7; }
+
+    /* =========================================================
+       DEMO LECTURE / SECTION
+       ========================================================= */
+    .demo-wrapper {
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .demo-screen {
+      width: 100%;
+      max-width: 800px;
+      height: 380px;
+      border-radius: 20px;
+      background: radial-gradient(circle at center, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 25px;
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    }
+
+    .play-btn-circle {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #fff;
+      transition: var(--transition-smooth);
+    }
+
+    .demo-screen:hover .play-btn-circle {
+      transform: scale(1.15);
+      background: var(--accent-cyan);
+      color: #000;
+      box-shadow: 0 0 30px var(--accent-cyan);
+    }
+
+    /* =========================================================
+       CONTACT & ENQUIRY SECTION
+       ========================================================= */
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 30px;
+    }
+
+    .contact-details {
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .contact-card-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      color: #fff;
+      text-decoration: none;
+      margin-bottom: 12px;
+      transition: var(--transition-smooth);
+    }
+
+    .contact-card-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(6px);
+    }
+
+    .contact-card-link i {
+      font-size: 1.3rem;
+    }
+
+    .whatsapp-accent {
+      color: var(--accent-green) !important;
+    }
+
+    .form-box {
+      padding: 35px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 12px 18px;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-cyan);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+    }
+
+    select.form-control option {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 80px;
+    }
+
+    /* Floating WhatsApp Pill */
+    .float-wa {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #25d366;
+      color: #fff;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+      z-index: 999;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    .float-wa:hover {
+      transform: scale(1.1) rotate(10deg);
+    }
+
+    /* =========================================================
+       RESPONSIVE DESIGN
+       ========================================================= */
+    @media (max-width: 900px) {
+      .split-grid, .contact-container {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none; /* Can be toggled with mobile burger if needed */
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+      }
     }
   </style>
 </head>
-<body class="selection:bg-blue-600 selection:text-white">
+<body>
 
-  <div id="root"></div>
+  <!-- Dynamic Liquid Background Orbs -->
+  <div class="liquid-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
 
-  <!-- React Dynamic Code with Multi-Page Routing -->
-  <script type="text/babel">
-    const { useState, useEffect } = React;
+  <!-- iOS Floating Island Header -->
+  <nav class="glass-panel">
+    <a href="#" class="logo">
+      <i class="fa-solid fa-atom"></i>
+      <span>Chemistry Zone</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#courses">Courses</a></li>
+      <li><a href="#modules">Modules</a></li>
+      <li><a href="#timing">Batches & Timing</a></li>
+      <li><a href="#mentorship">Mentorship</a></li>
+      <li><a href="#demo">Demo Class</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <a href="#contact" class="nav-btn">
+      <i class="fa-solid fa-paper-plane"></i> Enroll Now
+    </a>
+  </nav>
 
-    function App() {
-      // 9 Pages Router State
-      // 'home', 'batches', 'free-materials', 'paid-modules', 'mentorship', 'demo', 'centers', 'results', 'contact'
-      const [currentPage, setCurrentPage] = useState('home');
-      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-      const [batchFilter, setBatchFilter] = useState('All');
-      const [couponCode, setCouponCode] = useState('');
-      const [discountApplied, setDiscountApplied] = useState(false);
-      const [activeDemoVideo, setActiveDemoVideo] = useState('v1');
-      const [toastMsg, setToastMsg] = useState('');
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="badge-pill">
+      <i class="fa-solid fa-sparkles"></i> Admissions Open for 2026 - 2027
+    </div>
+    <h1>Master Chemistry with Clarity & Precision</h1>
+    <p>
+      Specialized coaching for Class 7th to 12th Board Exams, JEE Main & Advanced, NEET-UG, NDA, and CUET. Flexible Hybrid Learning with interactive doubt clearance.
+    </p>
+    <div class="hero-actions">
+      <a href="https://wa.me/919999999999?text=Hi%20Chemistry%20Zone,%20I%20want%20to%20enquire%20about%20classes" target="_blank" class="btn-primary">
+        <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+      </a>
+      <a href="#demo" class="btn-glass">
+        <i class="fa-solid fa-play"></i> Watch Free Demo
+      </a>
+    </div>
 
-      // Auto update Lucide icons on page change
-      useEffect(() => {
-        if (window.lucide) {
-          window.lucide.createIcons();
-        }
-        window.scrollTo(0, 0);
-      }, [currentPage, batchFilter, activeDemoVideo]);
+    <!-- Quick Highlights -->
+    <div class="highlights">
+      <div class="highlight-chip"><i class="fa-solid fa-laptop-house"></i> Offline & Online Batches</div>
+      <div class="highlight-chip"><i class="fa-solid fa-book-open"></i> Free & Paid Study Modules</div>
+      <div class="highlight-chip"><i class="fa-solid fa-user-graduate"></i> 1-on-1 Mentorship</div>
+      <div class="highlight-chip"><i class="fa-solid fa-calendar-check"></i> Flexible Timing</div>
+    </div>
+  </section>
 
-      const showNotification = (msg) => {
-        setToastMsg(msg);
-        setTimeout(() => setToastMsg(''), 4000);
-      };
+  <!-- Courses & Competitive Exam Coverage -->
+  <section id="courses" class="section">
+    <div class="section-title">
+      <h2>Targeted Programs & Exam Tracks</h2>
+      <p>Customized curriculum built according to latest NCERT & competitive exam patterns[span_0](start_span)[span_0](end_span).</p>
+    </div>
+    <div class="grid-3">
+      <!-- 7th to 10th Foundation -->
+      <div class="glass-panel card">
+        <div class="card-icon"><i class="fa-solid fa-seedling"></i></div>
+        <h3>Class 7th – 10th Foundation</h3>
+        <p>Building strong core foundations in Physical, Inorganic, and Organic concepts for NTSE, Olympiads, and School Exams[span_1](start_span)[span_1](end_span).</p>
+        <div class="tag-container">
+          <span class="tag">Conceptual Clarity</span>
+          <span class="tag">Foundation</span>
+          <span class="tag">Olympiads</span>
+        </div>
+      </div>
 
-      // 9-Page Navigation definition
-      const navLinks = [
-        { id: 'home', label: 'Home', icon: 'home' },
-        { id: 'batches', label: 'Batches 2026-27', icon: 'layers' },
-        { id: 'free-materials', label: 'Free Library', icon: 'book-open' },
-        { id: 'paid-modules', label: 'Test Series & Store', icon: 'shopping-bag' },
-        { id: 'mentorship', label: 'Mentors', icon: 'user-check' },
-        { id: 'demo', label: 'Live Demo', icon: 'play-circle' },
-        { id: 'centers', label: 'Centers (Offline)', icon: 'map-pin' },
-        { id: 'results', label: 'Results (AIR)', icon: 'trophy' },
-        { id: 'contact', label: 'Support & FAQs', icon: 'phone-call' },
-      ];
+      <!-- 11th & 12th Boards -->
+      <div class="glass-panel card">
+        <div class="card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <h3>Class 11th & 12th (CBSE / State)</h3>
+        <p>Complete board syllabus coverage with numerical solving sessions, reaction mechanisms, and laboratory practical guidance[span_2](start_span)[span_2](end_span).</p>
+        <div class="tag-container">
+          <span class="tag">CBSE</span>
+          <span class="tag">ICSE/State Boards</span>
+          <span class="tag">Answer Writing</span>
+        </div>
+      </div>
 
-      // Batches Data (Physics Wallah Pattern)
-      const batchesData = [
-        {
-          id: 'b1',
-          name: 'ARJUNA CHEMISTRY 2027',
-          target: 'Class 11 + JEE (Main & Adv)',
-          tag: 'MOST POPULAR',
-          price: '₹ 3,499',
-          originalPrice: '₹ 7,999',
-          discount: '56% OFF',
-          startDate: 'Starts 15th Nov 2026',
-          mode: 'Offline & Live Hybrid',
-          schedule: 'Daily 2 Live Classes + DPP Quiz',
-          faculty: 'Dr. R.K. Verma (Ex-Kota, 14+ Yrs Exp)',
-          features: ['Live Interactive Sessions', 'Class PPT & DPP with Video Solutions', 'Sunday Live Test Series', '24x7 Doubt Engine Access']
-        },
-        {
-          id: 'b2',
-          name: 'LAKSHYA CHEMISTRY 2027',
-          target: 'Class 12 + JEE Rank Booster',
-          tag: 'RANK BOOSTER',
-          price: '₹ 3,999',
-          originalPrice: '₹ 8,999',
-          discount: '55% OFF',
-          startDate: 'Starts 20th Nov 2026',
-          mode: 'Offline + Online Stream',
-          schedule: '5:30 PM - 7:30 PM (Mon-Sat)',
-          faculty: 'Er. Sandeep Mishra (IIT-BHU Graduate)',
-          features: ['Organic Mechanism Decoding', '15 Years PYQ Solving Marathon', 'Formula Sheet & Reaction Booklets', 'Personalized Mentorship Call']
-        },
-        {
-          id: 'b3',
-          name: 'YAKEEN MEDICAL CHEMISTRY',
-          target: 'NEET 2027 Dropper & 12th',
-          tag: 'NEET SPECIAL',
-          price: '₹ 3,699',
-          originalPrice: '₹ 7,499',
-          discount: '50% OFF',
-          startDate: 'Starts 1st Dec 2026',
-          mode: 'Pure NCERT Decode',
-          schedule: '10:00 AM - 12:30 PM (Daily)',
-          faculty: 'Dr. Priya Sharma (AIIMS Alumna Mentor)',
-          features: ['NCERT Word-by-Word Line Analysis', '10,000+ Topicwise NCERT Questions', 'Assertion-Reason Mastery', 'OMR Speed Strategy Sessions']
-        },
-        {
-          id: 'b4',
-          name: 'PRAYAS FOUNDATION (7th - 10th)',
-          target: 'Class 7 to 10 Board + Olympiad',
-          tag: 'FOUNDATION',
-          price: '₹ 1,999',
-          originalPrice: '₹ 4,499',
-          discount: '55% OFF',
-          startDate: 'Ongoing Evening Batches',
-          mode: 'Interactive Smart Board',
-          schedule: '4:00 PM - 5:15 PM (Mon, Wed, Fri)',
-          faculty: 'Aman Srivastava Sir',
-          features: ['Visual 3D Experiments', 'NTSE, NSEJS & Olympiad Prep', 'School Exam 100/100 Strategy', 'Weekly Parent-Teacher Meeting']
-        },
-        {
-          id: 'b5',
-          name: 'AGNI NDA & CUET BOOSTER',
-          target: 'NDA & CUET Chemistry Spec.',
-          tag: 'FAST TRACK',
-          price: '₹ 1,499',
-          originalPrice: '₹ 3,299',
-          discount: '54% OFF',
-          startDate: 'Batch Live Now',
-          mode: 'Live Fast-Track',
-          schedule: '6:30 PM - 8:00 PM (Weekend)',
-          faculty: 'Vikram Rajput Sir',
-          features: ['High-Yield Chemistry Topics Only', 'NDA 10-Year Question Bank', 'CUET Domain Specific Mock Test', 'Quick Formula Summary PDF']
-        }
-      ];
+      <!-- JEE Main & Advanced -->
+      <div class="glass-panel card">
+        <div class="card-icon"><i class="fa-solid fa-flask-vial"></i></div>
+        <h3>JEE (Main & Advanced)</h3>
+        <p>In-depth analytical problem solving, high-speed calculation tricks, and previous 15 years' question analysis[span_3](start_span)[span_3](end_span).</p>
+        <div class="tag-container">
+          <span class="tag">JEE Main</span>
+          <span class="tag">Advanced</span>
+          <span class="tag">Rank Booster</span>
+        </div>
+      </div>
 
-      // Free Study Material Data
-      const freeResources = [
-        { title: 'Periodic Table Mastery Mnemonics 2026', type: 'PDF Book', size: '12.4 MB', tag: 'Class 9-12' },
-        { title: 'NCERT Chemistry Line-By-Line Short Notes', type: 'Handwritten PDF', size: '28.1 MB', tag: 'NEET / Board' },
-        { title: 'Top 50 Organic Named Reactions Mechanism Sheet', type: 'Formula Wall', size: '8.2 MB', tag: 'JEE Main' },
-        { title: 'Class 10 Chemical Reactions & Equations Flashcards', type: 'Summary Notes', size: '5.6 MB', tag: 'Class 10' },
-        { title: 'Physical Chemistry All Formulas & Unit Conversions', type: 'Pocket Guide', size: '14.0 MB', tag: 'JEE / NEET' },
-        { title: 'CUET General Science & Chemistry Sample Paper Set', type: 'Practice Test', size: '6.8 MB', tag: 'CUET 2027' }
-      ];
+      <!-- NEET-UG -->
+      <div class="glass-panel card">
+        <div class="card-icon"><i class="fa-solid fa-stethoscope"></i></div>
+        <h3>NEET-UG Chemistry</h3>
+        <p>NCERT line-by-line breakdown, rapid formula recall, reaction maps, and high-accuracy test series[span_4](start_span)[span_4](end_span).</p>
+        <div class="tag-container">
+          <span class="tag">NEET Special</span>
+          <span class="tag">NCERT Extract</span>
+          <span class="tag">Mock Tests</span>
+        </div>
+      </div>
 
-      return (
-        <div className="min-h-screen flex flex-col bg-[#0b0f19]">
+      <!-- NDA -->
+      <div class="glass-panel card">
+        <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>NDA (General Science / Chem)</h3>
+        <p>Smart revision covering general chemistry, everyday chemistry, and fast scoring techniques for NDA aspirants[span_5](start_span)[span_5](end_span).</p>
+        <div class="tag-container">
+          <span class="tag">Defence Exam</span>
+          <span class="tag">High Weightage</span>
+        </div>
+      </div>
+
+      <!-- CUET -->
+      <div class="glass-panel card">
+        <div class="card-icon"><i class="fa-solid fa-building-columns"></i></div>
+        <h3>CUET (Domain Chemistry)</h3>
+        <p>Objective question practice targeted specifically to score 100 percentile in Central University Entrance Test[span_6](start_span)[span_6](end_span).</p>
+        <div class="tag-container">
+          <span class="tag">CUET 2026</span>
+          <span class="tag">Speed & Accuracy</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Paid vs Free Modules Section -->
+  <section id="modules" class="section">
+    <div class="section-title">
+      <h2>Curated Study Modules</h2>
+      <p>Choose between our accessible free resources and comprehensive mastery packages[span_7](start_span)[span_7](end_span).</p>
+    </div>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('free')">Free Modules</button>
+      <button class="tab-btn" onclick="switchTab('paid')">Paid Premium Modules</button>
+    </div>
+
+    <!-- Free Tab Content -->
+    <div id="free-content" class="module-grid">
+      <div class="glass-panel module-item">
+        <div>
+          <h3>Free NCERT Formula Sheets</h3>
+          <p style="color: var(--text-secondary); margin-top: 6px;">Handwritten summaries for quick revision[span_8](start_span)[span_8](end_span).</p>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Periodic Table short-notes</li>
+            <li><i class="fa-solid fa-check"></i> Important Organic naming reactions</li>
+            <li><i class="fa-solid fa-check"></i> Physical Chemistry formula bank</li>
+          </ul>
+        </div>
+        <a href="#contact" class="btn-glass" style="justify-content: center; font-size: 0.9rem;">Download PDF</a>
+      </div>
+
+      <div class="glass-panel module-item">
+        <div>
+          <h3>Weekly Open Mock Quizzes</h3>
+          <p style="color: var(--text-secondary); margin-top: 6px;">Self-evaluation tests available to all students[span_9](start_span)[span_9](end_span).</p>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Sunday Chapter-wise test</li>
+            <li><i class="fa-solid fa-check"></i> Instant answer key & score breakdown</li>
+            <li><i class="fa-solid fa-check"></i> All India relative ranking</li>
+          </ul>
+        </div>
+        <a href="#contact" class="btn-glass" style="justify-content: center; font-size: 0.9rem;">Take Free Test</a>
+      </div>
+    </div>
+
+    <!-- Paid Tab Content (Hidden by default) -->
+    <div id="paid-content" class="module-grid" style="display: none;">
+      <div class="glass-panel module-item">
+        <div>
+          <div class="badge-pill" style="margin-bottom: 10px;">PRO MODULE</div>
+          <h3>Full Year Comprehensive Package</h3>
+          <p style="color: var(--text-secondary); margin-top: 6px;">Everything required to secure a top 1% rank[span_10](start_span)[span_10](end_span).</p>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> 5000+ Level-wise Solved Question Bank</li>
+            <li><i class="fa-solid fa-check"></i> Daily Practice Problems (DPP) with video solutions</li>
+            <li><i class="fa-solid fa-check"></i> Printed module delivered at your doorstep</li>
+          </ul>
+        </div>
+        <a href="#contact" class="btn-primary" style="justify-content: center; font-size: 0.9rem;">Get Full Access</a>
+      </div>
+
+      <div class="glass-panel module-item">
+        <div>
+          <div class="badge-pill" style="margin-bottom: 10px;">CRASH COURSE</div>
+          <h3>Rank Booster Question Modules</h3>
+          <p style="color: var(--text-secondary); margin-top: 6px;">Curated for JEE, NEET, and CUET aspirants[span_11](start_span)[span_11](end_span).</p>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Previous 20 Years' Question Trends</li>
+            <li><i class="fa-solid fa-check"></i> Tricky numericals & mechanism solving sets</li>
+            <li><i class="fa-solid fa-check"></i> 15 Full-length simulated mock exams</li>
+          </ul>
+        </div>
+        <a href="#contact" class="btn-primary" style="justify-content: center; font-size: 0.9rem;">Enroll Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Batches, Timing & Mentorship -->
+  <section id="timing" class="section">
+    <div class="split-grid">
+      <!-- Timing Box -->
+      <div class="glass-panel info-box">
+        <h3><i class="fa-solid fa-clock" style="color: var(--accent-cyan);"></i> Batch Timing & Modes</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 16px;">We offer flexible shifts in both Online & Offline modes[span_12](start_span)[span_12](end_span).</p>
+        
+        <div class="timeline-item">
+          <span>Morning Batch (Class 11 & 12)</span>
+          <span><strong>06:30 AM – 08:30 AM</strong> <span class="mode-pill pill-offline">Offline</span></span>
+        </div>
+        <div class="timeline-item">
+          <span>Foundation Batch (7th – 10th)</span>
+          <span><strong>04:00 PM – 05:30 PM</strong> <span class="mode-pill pill-online">Online</span></span>
+        </div>
+        <div class="timeline-item">
+          <span>Target JEE / NEET Evening</span>
+          <span><strong>06:00 PM – 08:30 PM</strong> <span class="mode-pill pill-offline">Hybrid</span></span>
+        </div>
+        <div class="timeline-item">
+          <span>Weekend Special (NDA & CUET)</span>
+          <span><strong>10:00 AM – 02:00 PM</strong> <span class="mode-pill pill-online">Online</span></span>
+        </div>
+      </div>
+
+      <!-- Mentorship Box -->
+      <div id="mentorship" class="glass-panel info-box">
+        <h3><i class="fa-solid fa-handshake-angle" style="color: var(--accent-cyan);"></i> 1-on-1 Mentorship</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 16px;">Guidance that goes beyond normal textbook teaching[span_13](start_span)[span_13](end_span).</p>
+        <ul style="list-style: none;">
+          <li style="margin-bottom: 12px; display: flex; gap: 10px;">
+            <i class="fa-solid fa-circle-check" style="color: var(--accent-cyan); margin-top: 4px;"></i>
+            <span><strong>Personal Study Plan:</strong> Individual timetable formulation according to your strengths and weaknesses.</span>
+          </li>
+          <li style="margin-bottom: 12px; display: flex; gap: 10px;">
+            <i class="fa-solid fa-circle-check" style="color: var(--accent-cyan); margin-top: 4px;"></i>
+            <span><strong>Doubt Clearing Sessions:</strong> Dedicated daily 45-minute offline & online 1-on-1 doubt clearing counters.</span>
+          </li>
+          <li style="margin-bottom: 12px; display: flex; gap: 10px;">
+            <i class="fa-solid fa-circle-check" style="color: var(--accent-cyan); margin-top: 4px;"></i>
+            <span><strong>Monthly Parent-Teacher Feedback:</strong> Regular performance tracking and behavioral guidance[span_14](start_span)[span_14](end_span).</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Section -->
+  <section id="demo" class="section">
+    <div class="glass-panel demo-wrapper">
+      <div class="badge-pill"><i class="fa-solid fa-video"></i> Experience the Teaching Methodology</div>
+      <h2>Watch Free Demo Lecture</h2>
+      <p style="max-width: 600px; color: var(--text-secondary); margin-top: 8px;">
+        See how complex Chemical Kinetics and Reaction Mechanisms are broken down into simple, intuitive concepts[span_15](start_span)[span_15](end_span).
+      </p>
+
+      <div class="demo-screen" onclick="playDemo()">
+        <div class="play-btn-circle">
+          <i class="fa-solid fa-play"></i>
+        </div>
+        <p style="margin-top: 15px; font-weight: 600; color: #fff;">Class 12: Chemical Kinetics in 45 Mins</p>
+        <span style="font-size: 0.8rem; color: var(--text-secondary);">Click to Play Video</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section">
+    <div class="glass-panel card" style="padding: 40px; text-align: center;">
+      <h2 style="margin-bottom: 15px;">About Chemistry Zone</h2>
+      <p style="max-width: 780px; margin: 0 auto; line-height: 1.8; color: var(--text-secondary);">
+        At <strong>Chemistry Zone</strong>, we believe Chemistry is not a subject of rote memorization, but of understanding atomic interactions, nature's design, and systematic reasoning. Founded with a mission to simplify science, our institute offers high-quality instruction for school students (Classes 7–12) as well as competitive aspirants (JEE, NEET, NDA, CUET)[span_16](start_span)[span_16](end_span). Whether you learn through our well-equipped smart classrooms or via live online sessions, we provide the tools, modules, and mentorship you need to succeed[span_17](start_span)[span_17](end_span).
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact & WhatsApp Section -->
+  <section id="contact" class="section">
+    <div class="contact-container">
+      <!-- Quick Contact Info -->
+      <div class="glass-panel contact-details">
+        <div>
+          <h2>Get in Touch</h2>
+          <p style="color: var(--text-secondary); margin: 10px 0 25px;">Have questions regarding batches, modules, or fees? Reach out directly[span_18](start_span)[span_18](end_span).</p>
           
-          {/* PW Style Announcement Bar */}
-          <div className="bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-800 text-white text-xs font-semibold py-2 px-4 text-center flex items-center justify-center space-x-2">
-            <span className="bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded text-[10px] uppercase tracking-wide">New</span>
-            <span>Diwali Mahabachat Offer! Use code <strong className="underline font-bold text-yellow-300">CHEMZONE10</strong> for extra ₹500 off on all offline & online batches!</span>
-            <button onClick={() => setCurrentPage('batches')} className="underline font-bold hover:text-yellow-300 ml-2">Enroll Now &rarr;</button>
+          <a href="https://wa.me/919999999999" target="_blank" class="contact-card-link">
+            <i class="fa-brands fa-whatsapp whatsapp-accent"></i>
+            <div>
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">WhatsApp Support</div>
+              <div style="font-weight: 600;">+91 99999 99999</div>
+            </div>
+          </a>
+
+          <a href="mailto:info@chemistryzone.com" class="contact-card-link">
+            <i class="fa-solid fa-envelope" style="color: var(--accent-cyan);"></i>
+            <div>
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">Email ID</div>
+              <div style="font-weight: 600;">info@chemistryzone.com</div>
+            </div>
+          </a>
+
+          <div class="contact-card-link">
+            <i class="fa-solid fa-location-dot" style="color: #ff2a85;"></i>
+            <div>
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">Classroom Centre</div>
+              <div style="font-weight: 600;">Main Market Road, Near City Center</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 20px;">
+          <i class="fa-solid fa-shield-halved"></i> 100% Student satisfaction guaranteed.
+        </div>
+      </div>
+
+      <!-- Quick Registration / Enquiry Form -->
+      <div class="glass-panel form-box">
+        <h3 style="margin-bottom: 20px;">Book a Free Counseling Call</h3>
+        <form onsubmit="handleFormSubmit(event)">
+          <div class="form-group">
+            <label>Student's Full Name</label>
+            <input type="text" class="form-control" placeholder="Enter student name" required />
           </div>
 
-          {/* Navigation Bar */}
-          <header className="sticky top-0 z-50 glass-nav border-b border-slate-800/80">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-              
-              {/* Logo */}
-              <div 
-                className="flex items-center space-x-3 cursor-pointer group"
-                onClick={() => setCurrentPage('home')}
-              >
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-black text-2xl text-white shadow-xl shadow-blue-500/20 group-hover:scale-105 transition-transform">
-                  CZ
-                </div>
-                <div>
-                  <div className="flex items-center space-x-1.5">
-                    <span className="text-2xl font-black tracking-tight text-white">CHEMISTRY</span>
-                    <span className="text-2xl font-black tracking-tight text-blue-500">ZONE</span>
-                  </div>
-                  <p className="text-[11px] font-semibold text-slate-400 tracking-wider">BHARAT KA TRUSTED CHEMISTRY PLATFORM</p>
-                </div>
-              </div>
+          <div class="form-group">
+            <label>WhatsApp / Phone Number</label>
+            <input type="tel" class="form-control" placeholder="+91 XXXXX XXXXX" required />
+          </div>
 
-              {/* Desktop Menu - 9 Pages Links */}
-              <nav className="hidden xl:flex items-center space-x-1 text-sm font-semibold">
-                {navLinks.map((link) => (
-                  <button
-                    key={link.id}
-                    onClick={() => setCurrentPage(link.id)}
-                    className={`px-3 py-2 rounded-xl transition-all flex items-center space-x-1.5 ${
-                      currentPage === link.id 
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' 
-                        : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-                    }`}
-                  >
-                    <span>{link.label}</span>
-                  </button>
-                ))}
-              </nav>
+          <div class="form-group">
+            <label>Select Target Exam / Class</label>
+            <select class="form-control" required>
+              <option value="" disabled selected>Select option</option>
+              <option>Class 7th - 10th Foundation</option>
+              <option>Class 11th - 12th Board</option>
+              <option>JEE (Main + Advanced)</option>
+              <option>NEET-UG</option>
+              <option>NDA Exam</option>
+              <option>CUET</option>
+            </select>
+          </div>
 
-              {/* Quick Call & WhatsApp Action */}
-              <div className="hidden sm:flex items-center space-x-3">
-                <a 
-                  href="https://wa.me/919999999999?text=Namaste%20Chemistry%20Zone,%20I%20want%20to%20enroll%20in%20PW%20style%20batch"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-emerald-600/25 transition-all active:scale-95"
-                >
-                  <i data-lucide="message-circle" className="w-4 h-4"></i>
-                  <span>WhatsApp Admission</span>
-                </a>
-              </div>
+          <div class="form-group">
+            <label>Preferred Mode</label>
+            <select class="form-control">
+              <option>Offline Classroom</option>
+              <option>Online Live Interactive</option>
+              <option>Hybrid (Both)</option>
+            </select>
+          </div>
 
-              {/* Mobile Menu Hamburger */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="xl:hidden p-2.5 rounded-xl bg-slate-800 text-slate-200 hover:bg-slate-700 focus:outline-none"
-              >
-                <i data-lucide={mobileMenuOpen ? "x" : "menu"} className="w-6 h-6"></i>
-              </button>
+          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
+            Submit Enquiry
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
 
-            </div>
+  <!-- Floating WhatsApp Action -->
+  <a href="https://wa.me/919999999999?text=Hello%20Chemistry%20Zone!%20I%20want%20details%20about%20your%20coaching." class="float-wa" target="_blank" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
 
-            {/* Mobile Dropdown Nav */}
-            {mobileMenuOpen && (
-              <div className="xl:hidden bg-slate-900 border-b border-slate-800 px-4 pt-3 pb-6 space-y-2">
-                <div className="grid grid-cols-2 gap-2 mb-3">
-                  {navLinks.map((link) => (
-                    <button
-                      key={link.id}
-                      onClick={() => {
-                        setCurrentPage(link.id);
-                        setMobileMenuOpen(false);
-                      }}
-                      className={`px-3 py-2.5 rounded-xl text-xs font-bold text-left transition-all ${
-                        currentPage === link.id
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-800/80 text-slate-300 hover:bg-slate-800'
-                      }`}
-                    >
-                      {link.label}
-                    </button>
-                  ))}
-                </div>
-                <a 
-                  href="https://wa.me/919999999999"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full flex items-center justify-center space-x-2 bg-emerald-600 text-white py-3 rounded-xl text-sm font-bold shadow-lg"
-                >
-                  <i data-lucide="message-circle" className="w-4 h-4"></i>
-                  <span>Direct WhatsApp Chat (99999-99999)</span>
-                </a>
-              </div>
-            )}
-          </header>
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Chemistry Zone. All Rights Reserved. Designed with iOS Glassmorphism.</p>
+  </footer>
 
-          {/* Toast Notification */}
-          {toastMsg && (
-            <div className="fixed bottom-6 right-6 z-50 bg-emerald-500 text-slate-950 font-bold px-5 py-3 rounded-2xl shadow-2xl flex items-center space-x-2 animate-bounce">
-              <i data-lucide="check-circle" className="w-5 h-5"></i>
-              <span>{toastMsg}</span>
-            </div>
-          )}
+  <!-- =========================================================
+       JAVASCRIPT FOR DYNAMIC INTERACTIVITY
+       ========================================================= -->
+  <script>
+    // Tab switching for Paid vs Free Modules
+    function switchTab(type) {
+      const freeContent = document.getElementById('free-content');
+      const paidContent = document.getElementById('paid-content');
+      const buttons = document.querySelectorAll('.tab-btn');
 
-          {/* MAIN VIEWPORT ROUTER */}
-          <main className="flex-1">
-
-            {/* ================= PAGE 1: HOME ================= */}
-            {currentPage === 'home' && (
-              <div>
-                {/* Hero Section */}
-                <section className="relative overflow-hidden pt-12 pb-20 lg:pt-16 lg:pb-28 border-b border-slate-800">
-                  <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none"></div>
-
-                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div className="text-center max-w-4xl mx-auto">
-                      
-                      <div className="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/30 px-4 py-1.5 rounded-full text-blue-400 text-xs font-bold mb-6">
-                        <i data-lucide="sparkles" className="w-4 h-4 text-blue-400"></i>
-                        <span>AB PADHEGA BHARAT KA HAR EK STUDENT</span>
-                      </div>
-
-                      <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1] mb-6">
-                        Crack JEE, NEET & Boards With <br className="hidden sm:block" />
-                        <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
-                          Chemistry Zone
-                        </span>
-                      </h1>
-
-                      <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed mb-8">
-                        Most affordable & high-quality chemistry coaching in India. Live classes, Kota-level handwritten notes, 24x7 doubt engines, and dedicated personal mentorship.
-                      </p>
-
-                      <div className="flex flex-wrap items-center justify-center gap-4">
-                        <button 
-                          onClick={() => setCurrentPage('batches')}
-                          className="bg-blue-600 hover:bg-blue-500 text-white font-extrabold px-8 py-4 rounded-2xl shadow-xl shadow-blue-600/30 text-base transition-all active:scale-95 flex items-center space-x-2"
-                        >
-                          <span>Explore All Batches</span>
-                          <i data-lucide="arrow-right" className="w-5 h-5"></i>
-                        </button>
-                        <button 
-                          onClick={() => setCurrentPage('demo')}
-                          className="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold px-7 py-4 rounded-2xl text-base transition-all flex items-center space-x-2"
-                        >
-                          <i data-lucide="play" className="w-5 h-5 text-blue-400"></i>
-                          <span>Watch Free Demo Class</span>
-                        </button>
-                      </div>
-
-                      {/* PW Style Metrics Counter Bar */}
-                      <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                        <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl">
-                          <p className="text-3xl font-black text-blue-400">50,000+</p>
-                          <p className="text-xs text-slate-400 mt-1 font-semibold uppercase">Happy Students</p>
-                        </div>
-                        <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl">
-                          <p className="text-3xl font-black text-emerald-400">99.85 %ile</p>
-                          <p className="text-xs text-slate-400 mt-1 font-semibold uppercase">JEE Top Percentile</p>
-                        </div>
-                        <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl">
-                          <p className="text-3xl font-black text-amber-400">680+ / 720</p>
-                          <p className="text-xs text-slate-400 mt-1 font-semibold uppercase">NEET Max Score</p>
-                        </div>
-                        <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl">
-                          <p className="text-3xl font-black text-indigo-400">100% Free</p>
-                          <p className="text-xs text-slate-400 mt-1 font-semibold uppercase">Daily Doubt Support</p>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                </section>
-
-                {/* Popular Batches Preview (PW Cards Style) */}
-                <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-                    <div>
-                      <span className="text-xs font-black tracking-widest uppercase text-blue-400">Trending Courses</span>
-                      <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-1">Explore Popular Batches</h2>
-                    </div>
-                    <button 
-                      onClick={() => setCurrentPage('batches')}
-                      className="mt-4 md:mt-0 text-blue-400 hover:text-blue-300 font-bold text-sm flex items-center space-x-1"
-                    >
-                      <span>View all 7+ programs</span>
-                      <i data-lucide="chevron-right" className="w-4 h-4"></i>
-                    </button>
-                  </div>
-
-                  <div className="grid md:grid-cols-3 gap-8">
-                    {batchesData.slice(0, 3).map((b) => (
-                      <div key={b.id} className="bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 bg-blue-600 text-white font-black text-[10px] tracking-wider px-3 py-1 rounded-bl-xl uppercase">
-                          {b.tag}
-                        </div>
-
-                        <div>
-                          <span className="text-xs font-semibold text-slate-400 bg-slate-800 px-3 py-1 rounded-full">{b.target}</span>
-                          <h3 className="text-xl font-black text-white mt-4 mb-2 group-hover:text-blue-400 transition-colors">{b.name}</h3>
-                          <p className="text-xs text-slate-400 mb-4">{b.schedule}</p>
-                          
-                          <div className="space-y-2 mb-6">
-                            {b.features.slice(0, 3).map((f, i) => (
-                              <div key={i} className="flex items-center space-x-2 text-xs text-slate-300">
-                                <i data-lucide="check" className="w-4 h-4 text-emerald-400 shrink-0"></i>
-                                <span>{f}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="pt-4 border-t border-slate-800">
-                          <div className="flex items-baseline space-x-2 mb-4">
-                            <span className="text-2xl font-black text-white">{b.price}</span>
-                            <span className="text-xs text-slate-500 line-through">{b.originalPrice}</span>
-                            <span className="text-xs font-bold text-emerald-400">{b.discount}</span>
-                          </div>
-                          <button 
-                            onClick={() => {
-                              showNotification(`Redirecting to enroll for ${b.name}`);
-                              setCurrentPage('batches');
-                            }}
-                            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition-all text-sm active:scale-95"
-                          >
-                            Enroll Now
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* Free vs Paid Comparison Banner */}
-                <section className="py-16 bg-slate-950/70 border-t border-b border-slate-800">
-                  <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
-                    <div>
-                      <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">STUDENT FIRST INITIATIVE</span>
-                      <h2 className="text-3xl font-black text-white mt-2 mb-4">Both Free & Premium Modules Available</h2>
-                      <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                        PW ki tarah hamara bhi vishwas hai ki paise ki kami se kisi bhi student ki padhai nahi rukni chahiye. Hum daily free classes, YouTube revisions, aur downloadable PDF formula sheets provide karte hain.
-                      </p>
-                      <div className="flex space-x-4">
-                        <button onClick={() => setCurrentPage('free-materials')} className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-3 rounded-xl text-sm transition-all">
-                          Browse Free Library
-                        </button>
-                        <button onClick={() => setCurrentPage('paid-modules')} className="bg-slate-800 hover:bg-slate-700 text-white font-bold px-5 py-3 rounded-xl text-sm border border-slate-700 transition-all">
-                          Order Test Series & Books
-                        </button>
-                      </div>
-                    </div>
-                    <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4">
-                      <div className="flex items-start space-x-3">
-                        <div className="p-2 bg-blue-500/10 text-blue-400 rounded-lg"><i data-lucide="video" className="w-5 h-5"></i></div>
-                        <div>
-                          <h4 className="font-bold text-sm text-white">Daily Live & Recorded Lectures</h4>
-                          <p className="text-xs text-slate-400">Class miss ho gayi? Kisi bhi time recorded backup dekho unlimited times.</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <div className="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg"><i data-lucide="file-text" className="w-5 h-5"></i></div>
-                        <div>
-                          <h4 className="font-bold text-sm text-white">Daily Practice Problems (DPP)</h4>
-                          <p className="text-xs text-slate-400">Har class ke baad 15 standard questions with step-by-step video solution.</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <div className="p-2 bg-amber-500/10 text-amber-400 rounded-lg"><i data-lucide="users" className="w-5 h-5"></i></div>
-                        <div>
-                          <h4 className="font-bold text-sm text-white">Dedicated Saarthi Mentorship</h4>
-                          <p className="text-xs text-slate-400">Direct audio/video doubt solving sessions with senior faculty.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            )}
-
-            {/* ================= PAGE 2: BATCHES ================= */}
-            {currentPage === 'batches' && (
-              <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto mb-12">
-                  <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">PW Style Live Batches</span>
-                  <h1 className="text-4xl font-black text-white mt-2 mb-4">Target Exam Batches 2026 - 2027</h1>
-                  <p className="text-slate-400 text-sm">
-                    Select your category: Class 7th to 12th Board, JEE (Main & Advanced), NEET, NDA & CUET.
-                  </p>
-
-                  {/* Filter Tabs */}
-                  <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
-                    {['All', 'JEE', 'NEET', 'Class 11-12', 'Foundation (7-10)', 'NDA / CUET'].map((tab) => (
-                      <button
-                        key={tab}
-                        onClick={() => setBatchFilter(tab)}
-                        className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                          batchFilter === tab 
-                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' 
-                            : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                        }`}
-                      >
-                        {tab}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {batchesData.map((b) => (
-                    <div key={b.id} className="bg-slate-900 border border-slate-800 hover:border-blue-500 rounded-3xl p-6 flex flex-col justify-between transition-all">
-                      <div>
-                        <div className="flex justify-between items-center mb-3">
-                          <span className="text-xs font-bold text-blue-400 bg-blue-500/10 px-2.5 py-1 rounded-md">{b.target}</span>
-                          <span className="text-[11px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded uppercase">{b.mode}</span>
-                        </div>
-                        <h3 className="text-xl font-black text-white mb-2">{b.name}</h3>
-                        <p className="text-xs text-slate-400 mb-1"><strong>Instructor:</strong> {b.faculty}</p>
-                        <p className="text-xs text-slate-400 mb-4"><strong>Batch Starts:</strong> {b.startDate}</p>
-
-                        <div className="bg-slate-950/60 p-4 rounded-2xl mb-6 space-y-2">
-                          <p className="text-xs font-bold text-slate-300 mb-1">Batch Features:</p>
-                          {b.features.map((item, idx) => (
-                            <div key={idx} className="flex items-center space-x-2 text-xs text-slate-400">
-                              <i data-lucide="check-circle" className="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
-                              <span>{item}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="pt-4 border-t border-slate-800">
-                        <div className="flex items-baseline space-x-2 mb-4">
-                          <span className="text-3xl font-black text-white">{b.price}</span>
-                          <span className="text-sm text-slate-500 line-through">{b.originalPrice}</span>
-                          <span className="text-xs font-bold text-emerald-400">{b.discount}</span>
-                        </div>
-                        <button 
-                          onClick={() => showNotification(`Enrollment form opened for ${b.name}!`)}
-                          className="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-3.5 rounded-xl transition-all shadow-lg shadow-blue-600/25 active:scale-95"
-                        >
-                          Enroll in Batch Now
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* ================= PAGE 3: FREE MATERIALS ================= */}
-            {currentPage === 'free-materials' && (
-              <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto mb-12">
-                  <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">PW Khazana Style Library</span>
-                  <h1 className="text-4xl font-black text-white mt-2 mb-3">100% Free Chemistry Study Material</h1>
-                  <p className="text-slate-400 text-sm">Download Kota standard handwritten notes, flashcards, periodic table tricks, and formula sheets without paying a single rupee.</p>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {freeResources.map((item, index) => (
-                    <div key={index} className="bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-6 rounded-2xl flex flex-col justify-between transition-all">
-                      <div>
-                        <div className="flex justify-between items-center mb-3">
-                          <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">{item.tag}</span>
-                          <span className="text-xs text-slate-500 font-semibold">{item.size}</span>
-                        </div>
-                        <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
-                        <p className="text-xs text-slate-400 mb-6">Type: {item.type} • Verified by Senior Faculty</p>
-                      </div>
-                      <button 
-                        onClick={() => showNotification(`Downloading ${item.title}...`)}
-                        className="flex items-center justify-center space-x-2 bg-slate-800 hover:bg-emerald-600 hover:text-white text-slate-200 py-3 rounded-xl font-bold text-xs transition-colors"
-                      >
-                        <i data-lucide="download" className="w-4 h-4"></i>
-                        <span>Download Free PDF</span>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* ================= PAGE 4: PAID MODULES & STORE ================= */}
-            {currentPage === 'paid-modules' && (
-              <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto mb-12">
-                  <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">Chemistry Zone Store</span>
-                  <h1 className="text-4xl font-black text-white mt-2 mb-3">All India Test Series (AITS) & Modules</h1>
-                  <p className="text-slate-400 text-sm">High-yield printed books, mock test series with exact NTA exam software interface.</p>
-                </div>
-
-                {/* Coupon Code Section */}
-                <div className="max-w-md mx-auto bg-slate-900 border border-slate-800 p-4 rounded-2xl mb-12 flex items-center space-x-3">
-                  <input 
-                    type="text" 
-                    placeholder="Enter Coupon (Try: CHEMZONE10)" 
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value)}
-                    className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white uppercase focus:outline-none focus:border-blue-500 flex-1"
-                  />
-                  <button 
-                    onClick={() => {
-                      if (couponCode.toUpperCase() === 'CHEMZONE10') {
-                        setDiscountApplied(true);
-                        showNotification('Coupon CHEMZONE10 Applied! Extra ₹500 Discount Enabled!');
-                      } else {
-                        showNotification('Invalid Coupon code! Use CHEMZONE10');
-                      }
-                    }}
-                    className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs transition-all"
-                  >
-                    Apply
-                  </button>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-8">
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col justify-between">
-                    <div>
-                      <span className="text-xs font-bold text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">TEST SERIES</span>
-                      <h3 className="text-xl font-black text-white mt-4 mb-2">AITS JEE Main & Adv 2027</h3>
-                      <p className="text-xs text-slate-400 mb-4">30 Full Syllabus Mocks + 50 Part Tests with All India Rank & percentile predictor.</p>
-                      <ul className="text-xs text-slate-300 space-y-2 mb-6">
-                        <li>• Exact NTA Computer Based Test Interface</li>
-                        <li>• Video solution by Ex-IITian faculty</li>
-                        <li>• Time per question analysis</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-black text-white mb-4">
-                        {discountApplied ? '₹ 999' : '₹ 1,499'} <span className="text-xs text-slate-500 line-through">₹ 2,999</span>
-                      </p>
-                      <button onClick={() => showNotification('Added AITS to cart!')} className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-xs">Buy Test Series</button>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col justify-between">
-                    <div>
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full">PHYSICAL BOOK SET</span>
-                      <h3 className="text-xl font-black text-white mt-4 mb-2">Complete 3-Volume Chemistry Kit</h3>
-                      <p className="text-xs text-slate-400 mb-4">Comprehensive physical books delivered to your home address (Physical, Organic & Inorganic).</p>
-                      <ul className="text-xs text-slate-300 space-y-2 mb-6">
-                        <li>• Free delivery across all India pincodes</li>
-                        <li>• Colored reaction charts & 3D diagrams</li>
-                        <li>• 5000+ Level 1, 2, 3 questions</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-black text-white mb-4">
-                        {discountApplied ? '₹ 1,299' : '₹ 1,799'} <span className="text-xs text-slate-500 line-through">₹ 3,499</span>
-                      </p>
-                      <button onClick={() => showNotification('Ordering book set!')} className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-xs">Order Books to Home</button>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col justify-between">
-                    <div>
-                      <span className="text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full">NEET SPECIAL</span>
-                      <h3 className="text-xl font-black text-white mt-4 mb-2">NEET NCERT Line Punch Master</h3>
-                      <p className="text-xs text-slate-400 mb-4">Every line of NCERT converted into multiple choice questions & fill in the blanks.</p>
-                      <ul className="text-xs text-slate-300 space-y-2 mb-6">
-                        <li>• High-probability questions for NEET</li>
-                        <li>• 180/180 Chemistry guarantee booster</li>
-                        <li>• Includes digital access on app</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-black text-white mb-4">
-                        {discountApplied ? '₹ 499' : '₹ 999'} <span className="text-xs text-slate-500 line-through">₹ 1,999</span>
-                      </p>
-                      <button onClick={() => showNotification('NEET pack added!')} className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-xs">Unlock NCERT Booster</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* ================= PAGE 5: MENTORSHIP ================= */}
-            {currentPage === 'mentorship' && (
-              <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto mb-14">
-                  <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">Saarthi Mentorship</span>
-                  <h1 className="text-4xl font-black text-white mt-2 mb-3">Meet Your Star Mentors</h1>
-                  <p className="text-slate-400 text-sm">Padhai me focus nahi ho raha ya marks stuck ho gaye hain? Talk directly to our expert faculty.</p>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-8 mb-16">
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl text-center">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Mentor" className="w-28 h-28 rounded-full mx-auto object-cover mb-4 border-2 border-blue-500" />
-                    <h3 className="text-lg font-bold text-white">Dr. R. K. Verma</h3>
-                    <p className="text-xs text-blue-400 font-semibold mb-2">Ex-Kota Senior Chemistry Lead (14+ Yrs)</p>
-                    <p className="text-xs text-slate-400 leading-relaxed mb-4">Mentored over 150+ students in Top 500 AIR in JEE & NEET.</p>
-                    <button onClick={() => showNotification('Mentorship slot request received!')} className="w-full bg-slate-800 hover:bg-blue-600 text-white py-2.5 rounded-xl text-xs font-bold">Book 1-on-1 Call</button>
-                  </div>
-
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl text-center">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" alt="Mentor" className="w-28 h-28 rounded-full mx-auto object-cover mb-4 border-2 border-emerald-500" />
-                    <h3 className="text-lg font-bold text-white">Er. Sandeep Mishra</h3>
-                    <p className="text-xs text-emerald-400 font-semibold mb-2">IIT-BHU Alumnus • Organic Expert</p>
-                    <p className="text-xs text-slate-400 leading-relaxed mb-4">Specialist in making reaction mechanisms crystal clear without rote memorization.</p>
-                    <button onClick={() => showNotification('Mentorship slot request received!')} className="w-full bg-slate-800 hover:bg-emerald-600 text-white py-2.5 rounded-xl text-xs font-bold">Book 1-on-1 Call</button>
-                  </div>
-
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl text-center">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Mentor" className="w-28 h-28 rounded-full mx-auto object-cover mb-4 border-2 border-amber-500" />
-                    <h3 className="text-lg font-bold text-white">Dr. Priya Sharma</h3>
-                    <p className="text-xs text-amber-400 font-semibold mb-2">AIIMS Qualified Medical Faculty</p>
-                    <p className="text-xs text-slate-400 leading-relaxed mb-4">Helps students achieve 170+ out of 180 in NEET chemistry with NCERT decoder.</p>
-                    <button onClick={() => showNotification('Mentorship slot request received!')} className="w-full bg-slate-800 hover:bg-amber-600 text-white py-2.5 rounded-xl text-xs font-bold">Book 1-on-1 Call</button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* ================= PAGE 6: LIVE DEMO ================= */}
-            {currentPage === 'demo' && (
-              <div className="py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-10">
-                  <span className="text-xs font-bold text-red-500 uppercase tracking-widest flex items-center justify-center space-x-1">
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-                    <span>Free Video Experience</span>
-                  </span>
-                  <h1 className="text-4xl font-black text-white mt-2 mb-3">Experience Chemistry Zone Live Class</h1>
-                  <p className="text-slate-400 text-sm">Dekho kaise padhate hain humare top teachers, bina kisi registration fee ke.</p>
-                </div>
-
-                {/* Simulated PW Video Player */}
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl mb-8">
-                  <div className="relative aspect-video bg-black flex items-center justify-center">
-                    <img 
-                      src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=80" 
-                      alt="Demo thumbnail" 
-                      className="w-full h-full object-cover opacity-60"
-                    />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <button 
-                        onClick={() => showNotification('Demo lecture streaming simulated! Audio/Video playing.')}
-                        className="w-20 h-20 rounded-full bg-blue-600/90 hover:bg-blue-500 text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-transform"
-                      >
-                        <i data-lucide="play" className="w-8 h-8 fill-current ml-1"></i>
-                      </button>
-                      <p className="text-white font-bold mt-4 text-sm bg-black/60 px-4 py-1.5 rounded-full">
-                        Class 11: Chemical Bonding & Molecular Structure (Lecture 01)
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between border-t border-slate-800 gap-4">
-                    <div>
-                      <h3 className="text-lg font-bold text-white">Hybrid Hybridization & VSEPR Theory Masterclass</h3>
-                      <p className="text-xs text-slate-400 mt-1">Faculty: Dr. R. K. Verma • Duration: 1 Hour 15 Min • Views: 12.4k</p>
-                    </div>
-                    <div className="flex space-x-3">
-                      <button onClick={() => showNotification('Downloading lecture notes PDF...')} className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-1.5">
-                        <i data-lucide="file-text" className="w-4 h-4"></i>
-                        <span>Class Notes</span>
-                      </button>
-                      <button onClick={() => setCurrentPage('batches')} className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold">
-                        Enroll in Batch
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* ================= PAGE 7: OFFLINE CENTERS ================= */}
-            {currentPage === 'centers' && (
-              <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto mb-14">
-                  <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">Chemistry Vidyapeeth</span>
-                  <h1 className="text-4xl font-black text-white mt-2 mb-3">Our Offline Classroom Centers</h1>
-                  <p className="text-slate-400 text-sm">Agar aapko offline aamne-saamne padhna pasand hai, to humare nearest center par visit karein.</p>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
-                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center mb-4">
-                      <i data-lucide="map-pin" className="w-5 h-5"></i>
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-1">Patna Center</h3>
-                    <p className="text-xs text-blue-400 font-semibold mb-3">Boring Road & Kankarbagh</p>
-                    <p className="text-xs text-slate-400 leading-relaxed mb-4">Plot 45, Near Overhead Water Tank, Boring Canal Road, Patna, Bihar.</p>
-                    <p className="text-xs text-slate-300 font-bold mb-4">Timings: 8:00 AM - 8:00 PM</p>
-                    <a href="https://wa.me/919999999999?text=Inquiring%20about%20Patna%20Center" target="_blank" rel="noreferrer" className="block text-center bg-slate-800 hover:bg-blue-600 text-white py-2 rounded-xl text-xs font-bold transition-colors">Visit Patna Center</a>
-                  </div>
-
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4">
-                      <i data-lucide="map-pin" className="w-5 h-5"></i>
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-1">Kota Center</h3>
-                    <p className="text-xs text-emerald-400 font-semibold mb-3">Indraprastha Industrial Area</p>
-                    <p className="text-xs text-slate-400 leading-relaxed mb-4">Road No. 1, Near City Mall, Jhalawar Road, Kota, Rajasthan.</p>
-                    <p className="text-xs text-slate-300 font-bold mb-4">Timings: 7:00 AM - 9:00 PM</p>
-                    <a href="https://wa.me/919999999999?text=Inquiring%20about%20Kota%20Center" target="_blank" rel="noreferrer" className="block text-center bg-slate-800 hover:bg-emerald-600 text-white py-2 rounded-xl text-xs font-bold transition-colors">Visit Kota Center</a>
-                  </div>
-
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
-                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-4">
-                      <i data-lucide="map-pin" className="w-5 h-5"></i>
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-1">Delhi NCR Center</h3>
-                    <p className="text-xs text-amber-400 font-semibold mb-3">Janakpuri & Kalu Sarai</p>
-                    <p className="text-xs text-slate-400 leading-relaxed mb-4">A-Block, Near Metro Pillar 612, District Centre, Janakpuri, New Delhi.</p>
-                    <p className="text-xs text-slate-300 font-bold mb-4">Timings: 8:00 AM - 8:30 PM</p>
-                    <a href="https://wa.me/919999999999?text=Inquiring%20about%20Delhi%20Center" target="_blank" rel="noreferrer" className="block text-center bg-slate-800 hover:bg-amber-600 text-white py-2 rounded-xl text-xs font-bold transition-colors">Visit Delhi Center</a>
-                  </div>
-
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
-                    <div className="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-4">
-                      <i data-lucide="map-pin" className="w-5 h-5"></i>
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-1">Lucknow Center</h3>
-                    <p className="text-xs text-indigo-400 font-semibold mb-3">Hazratganj & Alambagh</p>
-                    <p className="text-xs text-slate-400 leading-relaxed mb-4">2nd Floor, Grand Plaza, Near Capitol Cinema, Hazratganj, Lucknow, UP.</p>
-                    <p className="text-xs text-slate-300 font-bold mb-4">Timings: 8:30 AM - 7:30 PM</p>
-                    <a href="https://wa.me/919999999999?text=Inquiring%20about%20Lucknow%20Center" target="_blank" rel="noreferrer" className="block text-center bg-slate-800 hover:bg-indigo-600 text-white py-2 rounded-xl text-xs font-bold transition-colors">Visit Lucknow Center</a>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* ================= PAGE 8: RESULTS & WALL OF FAME ================= */}
-            {currentPage === 'results' && (
-              <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto mb-14">
-                  <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">PW Style Wall of Fame</span>
-                  <h1 className="text-4xl font-black text-white mt-2 mb-3">Our Ranks Speak For Our Quality</h1>
-                  <p className="text-slate-400 text-sm">Hard work of our students + Right guidance of Chemistry Zone = Dream Colleges achieved.</p>
-                </div>
-
-                <div className="grid md:grid-cols-4 gap-6">
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl text-center relative overflow-hidden">
-                    <div className="absolute top-0 right-0 bg-amber-500 text-slate-950 font-black text-[10px] px-3 py-1 rounded-bl-xl">AIR 142</div>
-                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80" alt="Student" className="w-24 h-24 rounded-full mx-auto object-cover mb-4 border-2 border-amber-400" />
-                    <h3 className="text-lg font-bold text-white">Aditya Aryan</h3>
-                    <p className="text-xs text-blue-400 font-bold">JEE Advanced 2026</p>
-                    <p className="text-xs text-slate-400 mt-2">"Chemistry Zone ke Organic reaction mechanisms ne mujhe 120 me se 108 marks dilwaye!"</p>
-                  </div>
-
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl text-center relative overflow-hidden">
-                    <div className="absolute top-0 right-0 bg-emerald-500 text-slate-950 font-black text-[10px] px-3 py-1 rounded-bl-xl">695 / 720</div>
-                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80" alt="Student" className="w-24 h-24 rounded-full mx-auto object-cover mb-4 border-2 border-emerald-400" />
-                    <h3 className="text-lg font-bold text-white">Sneha Agarwal</h3>
-                    <p className="text-xs text-emerald-400 font-bold">NEET 2026 (AIIMS Delhi)</p>
-                    <p className="text-xs text-slate-400 mt-2">"Line-by-line NCERT decoding batch is the secret behind my 180/180 in Chemistry."</p>
-                  </div>
-
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl text-center relative overflow-hidden">
-                    <div className="absolute top-0 right-0 bg-blue-500 text-white font-black text-[10px] px-3 py-1 rounded-bl-xl">99.92 %ile</div>
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80" alt="Student" className="w-24 h-24 rounded-full mx-auto object-cover mb-4 border-2 border-blue-400" />
-                    <h3 className="text-lg font-bold text-white">Rohan Kulkarni</h3>
-                    <p className="text-xs text-blue-400 font-bold">JEE Main 2026</p>
-                    <p className="text-xs text-slate-400 mt-2">"DPPs and Sunday AITS tests simulated exact exam hall pressure for me."</p>
-                  </div>
-
-                  <div className="bg-slate-900 border border-slate-800 p-6 rounded-3xl text-center relative overflow-hidden">
-                    <div className="absolute top-0 right-0 bg-indigo-500 text-white font-black text-[10px] px-3 py-1 rounded-bl-xl">AIR 38</div>
-                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80" alt="Student" className="w-24 h-24 rounded-full mx-auto object-cover mb-4 border-2 border-indigo-400" />
-                    <h3 className="text-lg font-bold text-white">Ananya Sen</h3>
-                    <p className="text-xs text-indigo-400 font-bold">NDA Science Merited</p>
-                    <p className="text-xs text-slate-400 mt-2">"Fast track batch covered every critical topic required for NDA chemistry."</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* ================= PAGE 9: CONTACT & SUPPORT ================= */}
-            {currentPage === 'contact' && (
-              <div className="py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                  <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">24x7 Student Support</span>
-                  <h1 className="text-4xl font-black text-white mt-2 mb-3">Get in Touch With Chemistry Zone</h1>
-                  <p className="text-slate-400 text-sm">Admission query, batch timings, ya syllabus doubt? Humari counseling team hamesha ready hai.</p>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-8">
-                  {/* Callback Request Form */}
-                  <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl">
-                    <h3 className="text-xl font-bold text-white mb-2">Request an Instant Call Back</h3>
-                    <p className="text-xs text-slate-400 mb-6">Apni details fill karein, 15 minute ke andar counselor call karega.</p>
-
-                    <form onSubmit={(e) => {
-                      e.preventDefault();
-                      showNotification('Call back request submitted successfully!');
-                    }} className="space-y-4">
-                      <div>
-                        <label className="text-xs text-slate-300 font-medium block mb-1">Student / Parent Name</label>
-                        <input type="text" placeholder="e.g. Ramesh Kumar" required className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500" />
-                      </div>
-                      <div>
-                        <label className="text-xs text-slate-300 font-medium block mb-1">WhatsApp / Contact Number</label>
-                        <input type="tel" placeholder="+91 98765 43210" required className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500" />
-                      </div>
-                      <div>
-                        <label className="text-xs text-slate-300 font-medium block mb-1">Target Exam</label>
-                        <select className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-blue-500">
-                          <option>JEE Main & Advanced</option>
-                          <option>NEET Medical</option>
-                          <option>Class 11 & 12 Board</option>
-                          <option>Class 7 to 10 Foundation</option>
-                          <option>NDA / CUET</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label className="text-xs text-slate-300 font-medium block mb-1">Message or Query</label>
-                        <textarea rows="3" placeholder="Apna question yahan likhein..." className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-blue-500"></textarea>
-                      </div>
-                      <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-xs transition-all shadow-lg shadow-blue-600/30">
-                        Submit & Request Call
-                      </button>
-                    </form>
-                  </div>
-
-                  {/* Direct Contact info cards */}
-                  <div className="space-y-4">
-                    <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex items-start space-x-4">
-                      <div className="p-3 bg-blue-500/10 text-blue-400 rounded-xl"><i data-lucide="phone" className="w-6 h-6"></i></div>
-                      <div>
-                        <h4 className="font-bold text-white text-sm">Toll-Free Helpline</h4>
-                        <p className="text-xs text-slate-400 mt-1">+91 98765 43210 / +91 91234 56789</p>
-                        <p className="text-[11px] text-emerald-400 mt-1">Available 8:00 AM - 10:00 PM (All 7 Days)</p>
-                      </div>
-                    </div>
-
-                    <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex items-start space-x-4">
-                      <div className="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl"><i data-lucide="message-circle" className="w-6 h-6"></i></div>
-                      <div>
-                        <h4 className="font-bold text-white text-sm">Direct WhatsApp Counselor</h4>
-                        <p className="text-xs text-slate-400 mt-1">Instant doubt and syllabus inquiry on WhatsApp.</p>
-                        <a href="https://wa.me/919999999999" target="_blank" rel="noreferrer" className="inline-block mt-2 text-xs font-bold text-emerald-400 underline">Start Chat Now &rarr;</a>
-                      </div>
-                    </div>
-
-                    <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex items-start space-x-4">
-                      <div className="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl"><i data-lucide="mail" className="w-6 h-6"></i></div>
-                      <div>
-                        <h4 className="font-bold text-white text-sm">Official Email</h4>
-                        <p className="text-xs text-slate-400 mt-1">admissions@chemistryzone.com</p>
-                        <p className="text-xs text-slate-400">support@chemistryzone.com</p>
-                      </div>
-                    </div>
-
-                    {/* FAQ Mini */}
-                    <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
-                      <h4 className="font-bold text-white text-xs mb-2">Can I switch between Offline and Online?</h4>
-                      <p className="text-[11px] text-slate-400">Haan, bilkul! Chemistry Zone hybrid model provide karta hai jisme aap online se offline ya vice versa kabhi bhi shift kar sakte hain.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-          </main>
-
-          {/* PW Style Sticky Bottom Footer */}
-          <footer className="bg-slate-950 border-t border-slate-800 pt-16 pb-12 text-slate-400 text-xs">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
-              
-              <div>
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center font-black text-white text-lg">CZ</div>
-                  <span className="text-lg font-black text-white">CHEMISTRY ZONE</span>
-                </div>
-                <p className="leading-relaxed mb-4">
-                  Bharat ka sabse affordable aur structured chemistry learning institute. Transforming schooling, board exam prep, and JEE/NEET ranks with practical scientific clarity.
-                </p>
-                <p className="text-slate-500">© 2026-2027 Chemistry Zone Pvt Ltd. All rights reserved.</p>
-              </div>
-
-              <div>
-                <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Popular Batches</h4>
-                <ul className="space-y-2">
-                  <li><button onClick={() => setCurrentPage('batches')} className="hover:text-white">Arjuna JEE Chemistry 2027</button></li>
-                  <li><button onClick={() => setCurrentPage('batches')} className="hover:text-white">Lakshya Class 12 Boards</button></li>
-                  <li><button onClick={() => setCurrentPage('batches')} className="hover:text-white">Yakeen NEET Dropper Batch</button></li>
-                  <li><button onClick={() => setCurrentPage('batches')} className="hover:text-white">Prayas Class 7-10 Foundation</button></li>
-                  <li><button onClick={() => setCurrentPage('batches')} className="hover:text-white">Agni NDA & CUET Special</button></li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Quick Links</h4>
-                <ul className="space-y-2">
-                  <li><button onClick={() => setCurrentPage('free-materials')} className="hover:text-white">Free NCERT Formula Sheets</button></li>
-                  <li><button onClick={() => setCurrentPage('paid-modules')} className="hover:text-white">All India Test Series (AITS)</button></li>
-                  <li><button onClick={() => setCurrentPage('mentorship')} className="hover:text-white">Book Saarthi Mentorship</button></li>
-                  <li><button onClick={() => setCurrentPage('centers')} className="hover:text-white">Patna & Kota Centers</button></li>
-                  <li><button onClick={() => setCurrentPage('results')} className="hover:text-white">AIR 142 Wall of Fame</button></li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Official Head Center</h4>
-                <p className="text-slate-300 mb-2 font-semibold">Chemistry Zone Academic Hub</p>
-                <p className="leading-relaxed mb-3">Main Canal Road, Near City Center & Coaching Hub, Patna, Bihar - 800001</p>
-                <p className="mb-1"><strong>Phone:</strong> +91 98765 43210</p>
-                <p><strong>Email:</strong> help@chemistryzone.com</p>
-              </div>
-
-            </div>
-          </footer>
-
-        </div>
-      );
+      if (type === 'free') {
+        freeContent.style.display = 'grid';
+        paidContent.style.display = 'none';
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+      } else {
+        freeContent.style.display = 'none';
+        paidContent.style.display = 'grid';
+        buttons[0].classList.remove('active');
+        buttons[1].classList.add('active');
+      }
     }
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
+    // Interactive Demo Video click action
+    function playDemo() {
+      const screen = document.querySelector('.demo-screen');
+      screen.innerHTML = `
+        <iframe 
+          width="100%" 
+          height="100%" 
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
+          title="Demo Lecture" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen 
+          style="border-radius: 20px;">
+        </iframe>
+      `;
+    }
+
+    // Form Submit feedback
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      alert("Thank you for reaching out to Chemistry Zone! Our team will contact you via WhatsApp / Call within 24 hours.");
+      e.target.reset();
+    }
   </script>
 </body>
 </html>
-
